@@ -1,3 +1,5 @@
+<img src="https://user-images.githubusercontent.com/119073511/236722552-d11a375d-aaf2-43de-958a-0cd8b8f06d7a.png" style="width:60px;"></img>
+
 [MIT LICENSE](#license)
 
 <i>Teacher-AI</i> is a voice-to-AI-to-voice (v2ai2v) application built in React/Node to enable interactive, educational conversations with AI. Users can choose a subject to discuss and a conversational partner, then engage in a back-to-back voice conversation.
