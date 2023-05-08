@@ -292,7 +292,7 @@ function Console({
       }
     }
 
-    function collectAudio() {
+        function collectAudio() {
       if (stopped) {
         stop();
         return;
@@ -306,6 +306,8 @@ function Console({
       let recording = false;
       let stoppedTalking = false;
       let stoppedTalkingInterval = 0;
+      const autoEndTimer = 45000;
+      let recordingInterval = 0;
       let source;
       let gainNode;
       let analyzer;
@@ -314,7 +316,7 @@ function Console({
       const audioContext = new AudioContext();
       gainNode = audioContext.createGain();
       analyzer = audioContext.createAnalyser();
-      console.log(userMediaStream);
+      // Below is the audio stream from the mic, this represents a possible way of checking if the user enabled the mic + the inform the user of a disabled mic
       source = audioContext.createMediaStreamSource(userMediaStream);
       source.connect(gainNode);
       gainNode.connect(analyzer);
@@ -342,7 +344,6 @@ function Console({
       interval = setInterval(() => {
         analyzer.getByteFrequencyData(dataArray);
         const volume = dataArray.reduce((acc, val) => acc + val) / bufferLength;
-        0;
 
         // The user can talk, so start recording if they are talking - voice activity detection
 
@@ -354,6 +355,16 @@ function Console({
             console.log("Start recording, substantial audio detected");
           } else {
             console.log("User is currently talking");
+            recordingInterval += 100;
+            if (recordingInterval > autoEndTimer) {
+              console.log(
+                "User has been talking for too long, stopping recording"
+              );
+              recordingInterval = 0;
+              recording = false;
+              mediaRecorder.stop();
+              setActivityDetection(0);
+            }
           }
         } else {
           console.log("No audio detected.");
