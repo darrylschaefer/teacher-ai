@@ -140,7 +140,7 @@ function Console({
     }
 
     // Recorder holds and processes state for the record requests
-    const recorderInstance = () => {
+   const recorderInstance = () => {
       let currentRecording = null;
 
       function record() {
@@ -149,11 +149,17 @@ function Console({
           return;
         }
         setActivityDetection(1);
+        if(currentRecording != null){
+          clear();
+        }
         currentRecording = collectAudio();
       }
 
       function clear() {
+        if(currentRecording != null){
+          currentRecording.cancel();
         currentRecording = null;
+      }
       }
 
       return {
